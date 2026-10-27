@@ -1,6 +1,6 @@
 import { ACCESSORY_NAMES } from './accessory-names.ts';
 import type { Catalog, Ingredient, Pants, Shirt, Source, Tailoring } from './catalog/types.ts';
-import { BAR_MAX, barsToRgb, hsvToRgb, rgbToBars, toHex, type Bars } from './color.ts';
+import { BAR_MAX, barsToRgb, fromHex, hsvToRgb, rgbToBars, toHex, type Bars } from './color.ts';
 import { createFilter, gameCheckbox } from './filters.ts';
 import { randomOutfit } from './random.ts';
 import { bootsColors, correctColors, hatColors, pantsColors, shirtColors } from './item-colors.ts';
@@ -856,6 +856,8 @@ function colorBars(
 ): { field: HTMLFieldSetElement; sync: () => void } {
   const field = document.createElement('fieldset');
   field.className = 'flex flex-col gap-1 pt-1 disabled:opacity-30';
+  const rows = document.createElement('div');
+  rows.className = 'flex flex-col gap-1';
   const sliders = BAR_NAMES.map((name, i) => {
     const input = document.createElement('input');
     input.type = 'range';
@@ -878,10 +880,20 @@ function colorBars(
     const row = document.createElement('div');
     row.className = 'flex items-center gap-2';
     row.append(letter, input, number);
-    field.append(row);
+    rows.append(row);
     return { input, number };
   });
-  const sync = () => {
+  const picker = document.createElement('input');
+  picker.type = 'color';
+  picker.ariaLabel = 'Pick a colour';
+  picker.title = 'Pick a colour or take one from the screen';
+  picker.className =
+    'h-12 w-12 cursor-pointer rounded border-2 border-[#8B4513] bg-transparent p-0 disabled:cursor-default [&::-moz-color-swatch]:rounded-sm [&::-moz-color-swatch]:border-none [&::-webkit-color-swatch]:rounded-sm [&::-webkit-color-swatch]:border-none [&::-webkit-color-swatch-wrapper]:p-0';
+  picker.addEventListener('input', () => {
+    set(rgbToBars(fromHex(picker.value)));
+    showBars();
+  });
+  const showBars = () => {
     const bars = get();
     sliders.forEach(({ input, number }, i) => {
       input.style.background = barGradient(bars, i);
@@ -889,10 +901,24 @@ function colorBars(
       number.textContent = String(bars[i]);
     });
   };
+  const sync = () => {
+    showBars();
+    picker.value = toHex(barsToRgb(get()));
+  };
+  const dropper = new Image(28, 28);
+  dropper.src = `${import.meta.env.BASE_URL}ui/eyedropper.png`;
+  dropper.alt = '';
+  dropper.className = 'pointer-events-none absolute inset-0 m-auto [image-rendering:pixelated]';
+  const swatch = document.createElement('div');
+  swatch.className = 'relative flex';
+  swatch.append(picker, dropper);
+  const controls = document.createElement('div');
+  controls.className = 'flex items-center gap-3';
+  controls.append(rows, swatch);
   const hint = document.createElement('p');
   hint.className = 'text-xs italic text-black/60';
   hint.textContent = note;
-  field.append(hint);
+  field.append(controls, hint);
   sync();
   document.addEventListener(OUTFIT_CHANGED, sync);
   return { field, sync };
