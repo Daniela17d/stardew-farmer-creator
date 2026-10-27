@@ -32,7 +32,7 @@
       <img src="/ui/cloud-3.png" alt="" width="164" height="92" style="top: 88%; left: 72%">
     </div>
     <header class="relative">
-      <h1 class="pt-6 pr-16 pl-4 md:px-4">
+      <h1 class="px-4 pt-6">
         <img src="/ui/title.png" alt="Stardew Farmer Creator" width="643" height="57" class="mx-auto h-auto max-w-full [image-rendering:pixelated]">
       </h1>
       <button id="help" type="button" aria-label="How to use" title="How to use" class="absolute top-4 right-4 transition-transform hover:scale-110">
@@ -61,10 +61,15 @@
         </ul>
       </form>
     </dialog>
-    <main class="mx-auto my-8 flex w-full flex-col items-center gap-6 px-2 sm:w-fit sm:px-4 xl:flex-row xl:items-start min-[1500px]:w-full min-[1500px]:justify-center min-[1500px]:gap-4">
-      <div id="app" class="flex w-full shrink-0 flex-col gap-6 rounded-xl bg-[#D7A437] p-3 sm:w-fit sm:p-6"></div>
+    <main class="mx-auto my-8 flex w-fit flex-col items-center gap-6 px-4 xl:flex-row xl:items-start min-[1500px]:w-full min-[1500px]:justify-center min-[1500px]:gap-4">
+      <div id="app" class="flex w-fit shrink-0 flex-col gap-6 rounded-xl bg-[#D7A437] p-6">
+        <p class="flex h-80 w-64 flex-col items-center justify-center gap-4 font-semibold sm:w-96">
+          <img src="/ui/favicon-32.png" alt="" width="64" height="64" class="motion-safe:animate-bounce [image-rendering:pixelated]">
+          Loading…
+        </p>
+      </div>
       <aside id="summary" class="w-full max-w-sm rounded-xl bg-[#D7A437] p-6 empty:hidden xl:sticky xl:top-6 xl:order-first xl:w-80 xl:shrink-0"></aside>
-      <aside id="details" class="hidden min-w-0 max-w-sm flex-1 rounded-xl bg-[#D7A437] p-6 min-[1500px]:sticky min-[1500px]:top-6 min-[1500px]:block"></aside>
+      <aside id="details" class="hidden min-w-0 empty:hidden max-w-sm flex-1 rounded-xl bg-[#D7A437] p-6 min-[1500px]:sticky min-[1500px]:top-6 min-[1500px]:block"></aside>
     </main>
     <footer class="mb-6 px-4 text-center text-xs text-black/70">
       Stardew Valley and its art are © ConcernedApe LLC. Based on Stardew Valley %GAME_VERSION%. This is a non-commercial fan project, not

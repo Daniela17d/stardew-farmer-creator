@@ -45,7 +45,7 @@ content.className = 'flex flex-col items-center gap-8 md:flex-row md:items-start
 const preview = createPreview(canvas, state, catalog);
 preview.append(createShareControls(catalog, state, renderer));
 content.append(preview, panel);
-app.append(tabs, content);
+app.replaceChildren(tabs, content);
 
 const summary = createSummary(catalog, state, renderer);
 document.querySelector('#summary')!.append(summary.panel);
