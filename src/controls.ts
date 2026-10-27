@@ -27,7 +27,7 @@ interface Choice<T> {
 
 const LABEL = 'font-semibold';
 const TAB =
-  'flex h-12 w-12 items-center justify-center bg-[length:100%_100%] bg-no-repeat pt-2 [image-rendering:pixelated] transition-transform hover:-translate-y-0.5 aria-selected:translate-y-2';
+  'flex h-10 w-10 items-center justify-center bg-[length:100%_100%] bg-no-repeat pt-2 [image-rendering:pixelated] transition-transform hover:-translate-y-0.5 aria-selected:translate-y-2 sm:h-12 sm:w-12';
 const OPTION =
   'flex flex-col items-center rounded border-2 border-transparent bg-white/50 p-1 text-xs font-semibold hover:bg-white aria-pressed:border-[#8B4513] aria-pressed:bg-white';
 const GENDER =
@@ -121,7 +121,7 @@ export function createEditor(
   const { outfit } = state;
   const tabs = document.createElement('nav');
   tabs.role = 'tablist';
-  tabs.className = 'flex items-end gap-3 border-b-2 border-[#8B4513] pb-1';
+  tabs.className = 'flex items-end gap-2 border-b-2 border-[#8B4513] pb-1 sm:gap-3';
   const mainTabs = document.createElement('div');
   mainTabs.className = 'flex flex-1 flex-wrap justify-center gap-1';
   const divider = document.createElement('span');
@@ -146,7 +146,7 @@ export function createEditor(
   };
   tabs.append(mainTabs, divider, sideTabs);
   const panel = document.createElement('div');
-  panel.className = 'min-w-80';
+  panel.className = 'w-full sm:w-auto sm:min-w-80';
   const sections: { name: string; tab: HTMLButtonElement; section: HTMLElement; paint: () => void }[] = [];
   let active = 0;
 
@@ -197,7 +197,7 @@ export function createEditor(
     tab.addEventListener('click', () => show(index));
     const grid = document.createElement('div');
     grid.role = 'tabpanel';
-    grid.className = 'grid grid-cols-[6rem_auto] items-start gap-x-3 gap-y-3 text-sm';
+    grid.className = 'grid grid-cols-1 items-start gap-x-3 gap-y-2 text-sm sm:grid-cols-[6rem_auto] sm:gap-y-3';
     (aside ? sideTabs : mainTabs).append(tab);
     panel.append(grid);
     const entry = { name, tab, section: grid, paint: () => {} };
@@ -235,7 +235,7 @@ export function createEditor(
     'Skin',
     choiceGrid(
       skinPictures.map((picture, skin) => ({ value: skin, label: String(skin + 1), picture })),
-      'grid-cols-8',
+      'grid-cols-[repeat(auto-fill,minmax(44px,1fr))] sm:grid-cols-8',
       () => outfit.skin,
       (skin) => (outfit.skin = skin),
     ),
@@ -263,7 +263,7 @@ export function createEditor(
           picture: accessoryPictures[i],
         })),
       ],
-      'grid-cols-8',
+      'grid-cols-[repeat(auto-fill,minmax(44px,1fr))] sm:grid-cols-8',
       () => outfit.accessory,
       (id) => (outfit.accessory = id),
       'Names are unofficial: the game only gives accessories a number.',
@@ -291,7 +291,7 @@ export function createEditor(
     'Hair',
     choiceGrid(
       catalog.hairstyles.map((style, i) => ({ value: style.id, label: String(i + 1), picture: hairPictures[i] })),
-      'grid-cols-8',
+      'grid-cols-[repeat(auto-fill,minmax(44px,1fr))] sm:grid-cols-8',
       () => outfit.hairstyle,
       (id) => (outfit.hairstyle = id),
     ),
@@ -347,7 +347,7 @@ export function createEditor(
           picture: shirtPictures[i],
         };
       }),
-      'grid-cols-6',
+      'grid-cols-[repeat(auto-fill,minmax(60px,1fr))] sm:grid-cols-6',
       () => outfit.shirt,
       (id) => {
         outfit.shirt = id;
@@ -409,7 +409,7 @@ export function createEditor(
           picture: pantsPictures[i],
         };
       }),
-      'grid-cols-6',
+      'grid-cols-[repeat(auto-fill,minmax(60px,1fr))] sm:grid-cols-6',
       () => outfit.pants,
       (id) => {
         outfit.pants = id;
@@ -457,7 +457,7 @@ export function createEditor(
           picture: hatPictures[i],
         })),
       ],
-      'grid-cols-7',
+      'grid-cols-[repeat(auto-fill,minmax(52px,1fr))] sm:grid-cols-7',
       () => outfit.hat,
       (id) => (outfit.hat = id),
       undefined,
@@ -498,7 +498,7 @@ export function createEditor(
           picture: bootsPictures[i],
         })),
       ],
-      'grid-cols-6',
+      'grid-cols-[repeat(auto-fill,minmax(60px,1fr))] sm:grid-cols-6',
       () => outfit.boots,
       (id) => (outfit.boots = id),
       undefined,
@@ -531,7 +531,7 @@ export function createEditor(
     'Villager',
     choiceGrid<string | null>(
       VILLAGERS.map((preset, i) => ({ value: preset.name, label: preset.name, picture: villagerPictures[i] })),
-      'grid-cols-6',
+      'grid-cols-[repeat(auto-fill,minmax(81px,1fr))] sm:grid-cols-6',
       () => villager,
       (name) => {
         villager = name;
@@ -888,7 +888,7 @@ function colorBars(
   picker.ariaLabel = 'Pick a colour';
   picker.title = 'Pick a colour or take one from the screen';
   picker.className =
-    'h-12 w-12 cursor-pointer rounded border-2 border-[#8B4513] bg-transparent p-0 disabled:cursor-default [&::-moz-color-swatch]:rounded-sm [&::-moz-color-swatch]:border-none [&::-webkit-color-swatch]:rounded-sm [&::-webkit-color-swatch]:border-none [&::-webkit-color-swatch-wrapper]:p-0';
+    'h-9 w-9 cursor-pointer rounded border-2 border-[#8B4513] bg-transparent p-0 disabled:cursor-default [&::-moz-color-swatch]:rounded-sm [&::-moz-color-swatch]:border-none [&::-webkit-color-swatch]:rounded-sm [&::-webkit-color-swatch]:border-none [&::-webkit-color-swatch-wrapper]:p-0';
   picker.addEventListener('input', () => {
     set(rgbToBars(fromHex(picker.value)));
     showBars();
@@ -905,7 +905,7 @@ function colorBars(
     showBars();
     picker.value = toHex(barsToRgb(get()));
   };
-  const dropper = new Image(28, 28);
+  const dropper = new Image(21, 21);
   dropper.src = `${import.meta.env.BASE_URL}ui/eyedropper.png`;
   dropper.alt = '';
   dropper.className = 'pointer-events-none absolute inset-0 m-auto [image-rendering:pixelated]';
