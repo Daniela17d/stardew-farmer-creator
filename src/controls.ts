@@ -27,7 +27,7 @@ interface Choice<T> {
 
 const LABEL = 'font-semibold';
 const TAB =
-  'flex h-12 w-12 items-center justify-center bg-[length:100%_100%] bg-no-repeat pt-2 [image-rendering:pixelated] transition-transform hover:-translate-y-0.5 aria-selected:translate-y-2';
+  'flex h-12 w-12 items-center justify-center bg-[length:100%_100%] bg-no-repeat pt-2 [image-rendering:pixelated] transition-transform hover:-translate-y-0.5 aria-selected:translate-y-2 max-sm:h-10 max-sm:w-10';
 const OPTION =
   'flex flex-col items-center rounded border-2 border-transparent bg-white/50 p-1 text-xs font-semibold hover:bg-white aria-pressed:border-[#8B4513] aria-pressed:bg-white';
 const GENDER =
@@ -121,7 +121,7 @@ export function createEditor(
   const { outfit } = state;
   const tabs = document.createElement('nav');
   tabs.role = 'tablist';
-  tabs.className = 'flex items-end gap-3 border-b-2 border-[#8B4513] pb-1';
+  tabs.className = 'flex items-end gap-3 border-b-2 border-[#8B4513] pb-1 max-sm:gap-2';
   const mainTabs = document.createElement('div');
   mainTabs.className = 'flex flex-1 flex-wrap justify-center gap-1';
   const divider = document.createElement('span');
@@ -146,7 +146,7 @@ export function createEditor(
   };
   tabs.append(mainTabs, divider, sideTabs);
   const panel = document.createElement('div');
-  panel.className = 'min-w-80';
+  panel.className = 'min-w-80 max-sm:w-full max-sm:min-w-0';
   const sections: { name: string; tab: HTMLButtonElement; section: HTMLElement; paint: () => void }[] = [];
   let active = 0;
 
@@ -197,7 +197,7 @@ export function createEditor(
     tab.addEventListener('click', () => show(index));
     const grid = document.createElement('div');
     grid.role = 'tabpanel';
-    grid.className = 'grid grid-cols-[6rem_auto] items-start gap-x-3 gap-y-3 text-sm';
+    grid.className = 'grid grid-cols-[6rem_auto] items-start gap-x-3 gap-y-3 text-sm max-sm:grid-cols-1 max-sm:gap-y-2';
     (aside ? sideTabs : mainTabs).append(tab);
     panel.append(grid);
     const entry = { name, tab, section: grid, paint: () => {} };
@@ -235,7 +235,7 @@ export function createEditor(
     'Skin',
     choiceGrid(
       skinPictures.map((picture, skin) => ({ value: skin, label: String(skin + 1), picture })),
-      'grid-cols-8',
+      'grid-cols-8 max-sm:grid-cols-[repeat(auto-fill,minmax(44px,1fr))]',
       () => outfit.skin,
       (skin) => (outfit.skin = skin),
     ),
@@ -263,7 +263,7 @@ export function createEditor(
           picture: accessoryPictures[i],
         })),
       ],
-      'grid-cols-8',
+      'grid-cols-8 max-sm:grid-cols-[repeat(auto-fill,minmax(44px,1fr))]',
       () => outfit.accessory,
       (id) => (outfit.accessory = id),
       'Names are unofficial: the game only gives accessories a number.',
@@ -291,7 +291,7 @@ export function createEditor(
     'Hair',
     choiceGrid(
       catalog.hairstyles.map((style, i) => ({ value: style.id, label: String(i + 1), picture: hairPictures[i] })),
-      'grid-cols-8',
+      'grid-cols-8 max-sm:grid-cols-[repeat(auto-fill,minmax(44px,1fr))]',
       () => outfit.hairstyle,
       (id) => (outfit.hairstyle = id),
     ),
@@ -347,7 +347,7 @@ export function createEditor(
           picture: shirtPictures[i],
         };
       }),
-      'grid-cols-6',
+      'grid-cols-6 max-sm:grid-cols-[repeat(auto-fill,minmax(60px,1fr))]',
       () => outfit.shirt,
       (id) => {
         outfit.shirt = id;
@@ -409,7 +409,7 @@ export function createEditor(
           picture: pantsPictures[i],
         };
       }),
-      'grid-cols-6',
+      'grid-cols-6 max-sm:grid-cols-[repeat(auto-fill,minmax(60px,1fr))]',
       () => outfit.pants,
       (id) => {
         outfit.pants = id;
@@ -457,7 +457,7 @@ export function createEditor(
           picture: hatPictures[i],
         })),
       ],
-      'grid-cols-7',
+      'grid-cols-7 max-sm:grid-cols-[repeat(auto-fill,minmax(52px,1fr))]',
       () => outfit.hat,
       (id) => (outfit.hat = id),
       undefined,
@@ -498,7 +498,7 @@ export function createEditor(
           picture: bootsPictures[i],
         })),
       ],
-      'grid-cols-6',
+      'grid-cols-6 max-sm:grid-cols-[repeat(auto-fill,minmax(60px,1fr))]',
       () => outfit.boots,
       (id) => (outfit.boots = id),
       undefined,
@@ -531,7 +531,7 @@ export function createEditor(
     'Villager',
     choiceGrid<string | null>(
       VILLAGERS.map((preset, i) => ({ value: preset.name, label: preset.name, picture: villagerPictures[i] })),
-      'grid-cols-6',
+      'grid-cols-6 max-sm:grid-cols-[repeat(auto-fill,minmax(81px,1fr))]',
       () => villager,
       (name) => {
         villager = name;
